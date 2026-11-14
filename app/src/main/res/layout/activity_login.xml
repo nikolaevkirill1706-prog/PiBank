@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="28dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PiBank"
+            android:textColor="@color/neon"
+            android:textSize="40sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="28dp"
+            android:text="Войдите в свой аккаунт"
+            android:textColor="@color/text_secondary"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/etEmail"
+            style="@style/PiInput"
+            android:hint="Электронная почта"
+            android:importantForAutofill="no"
+            android:inputType="textEmailAddress" />
+
+        <EditText
+            android:id="@+id/etPassword"
+            style="@style/PiInput"
+            android:hint="Пароль"
+            android:importantForAutofill="no"
+            android:inputType="textPassword" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnLogin"
+            style="@style/PiButton"
+            android:text="Войти" />
+
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="16dp"
+            android:indeterminateTint="@color/neon"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/btnForgot"
+            style="@style/PiLink"
+            android:layout_marginTop="8dp"
+            android:text="Забыли пароль?" />
+
+        <TextView
+            android:id="@+id/btnRegister"
+            style="@style/PiLink"
+            android:text="Нет аккаунта? Зарегистрироваться" />
+    </LinearLayout>
+</ScrollView>

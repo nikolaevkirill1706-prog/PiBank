@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="panel">#14101F</color>
+    <color name="panel_stroke">#2A1F47</color>
+    <color name="purple">#7C3AED</color>
+    <color name="neon">#C77DFF</color>
+    <color name="cyan">#22D3EE</color>
+    <color name="text_secondary">#9A8FBF</color>
+    <color name="error">#FF6B8A</color>
+</resources>
