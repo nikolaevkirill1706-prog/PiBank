@@ -15,25 +15,18 @@
     },
     "cards": {
       "$uid": {
-        ".read": "auth != null && auth.uid === $uid",
-        "$cardId": {
-          ".write": "auth != null && auth.uid === $uid && !data.exists() && newData.exists()",
-          ".validate": "newData.hasChildren(['number', 'type', 'holder', 'expiry', 'cvv', 'balance', 'status', 'createdAt'])",
-          "number": { ".validate": "newData.isString() && newData.val().length === 16" },
-          "type": { ".validate": "newData.val() === 'debit' || newData.val() === 'credit' || newData.val() === 'child'" },
-          "holder": { ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length < 41" },
-          "expiry": { ".validate": "newData.isString() && newData.val().length === 5" },
-          "cvv": { ".validate": "newData.isString() && newData.val().length === 3" },
-          "balance": { ".validate": "newData.val() === 0" },
-          "status": { ".validate": "newData.val() === 'active'" },
-          "createdAt": { ".validate": "newData.isNumber()" },
-          "$other": { ".validate": false }
-        }
+        ".read": "auth != null && auth.uid === $uid"
       }
     },
-    "cardIndex": {
-      "$number": {
-        ".write": "auth != null && !data.exists() && newData.val() === auth.uid"
+    "loans": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid"
+      }
+    },
+    "operations": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".indexOn": ["createdAt"]
       }
     }
   }
