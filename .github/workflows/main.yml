@@ -1,79 +1,25 @@
-name: Build and Deploy PiBank
+name: Build APK
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-  workflow_dispatch: # Позволяет запускать workflow вручную кнопкой
+    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
-  # ==========================================
-  # 1. СБОРКА ANDROID ПРИЛОЖЕНИЯ (APK)
-  # ==========================================
-  build-android:
-    name: Build Android APK
+  build:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: gradle
-
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-
-    # Если вы используете google-services.json (Firebase), его нужно создать из секретов
-    # Раскомментируйте этот блок, если сборка падает из-за отсутствия этого файла
-    # - name: Create google-services.json
-    #   run: echo '${{ secrets.GOOGLE_SERVICES_JSON }}' > приложение/google-services.json
-
-    - name: Build with Gradle
-      run: ./gradlew :приложение:assembleDebug # Собираем Debug APK
-
-    - name: Upload APK Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: PiBank-Debug-APK
-        path: приложение/build/outputs/apk/debug/*.apk
-
-  # ==========================================
-  # 2. СБОРКА И ДЕПЛОЙ ОБЛАЧНЫХ ФУНКЦИЙ (NODE.JS)
-  # ==========================================
-  deploy-functions:
-    name: Deploy Cloud Functions
-    runs-on: ubuntu-latest
-    needs: build-android # Запустится только если Android собрался успешно
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-        cache: 'npm'
-        cache-dependency-path: функции/package-lock.json # Путь к package-lock.json
-
-    - name: Install dependencies
-      run: |
-        cd функции
-        npm ci
-
-    # ВНИМАНИЕ: Для деплоя нужно добавить секрет FIREBASE_TOKEN в настройки репозитория!
-    # Как его получить: npx firebase-tools login:ci
-    - name: Deploy to Firebase
-      uses: w9jds/firebase-action@master
-      with:
-        args: deploy --only functions
-      env:
-        GCP_SA_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }} # Или используйте FIREBASE_TOKEN
-        PROJECT_ID: ваш_project_id # Замените на ID вашего Firebase проекта
-        # Если хотите использовать токен вместо ключа SA, используйте FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: 8.9
+      - name: Build debug APK
+        run: gradle assembleDebug
+      - uses: actions/upload-artifact@v4
+        with:
+          name: PiBank-debug-apk
+          path: app/build/outputs/apk/debug/app-debug.apk
